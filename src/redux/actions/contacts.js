@@ -3,6 +3,8 @@ import ContactsApi from '../../api/ContactsApi';
 import { getContactsService } from '../../api/ContactsApi'
 import ActionTypes from '../constants/actionTypes';
 const { api } = services
+
+const token = process.env.REACT_APP_TOKEN
 export function getContacts(params) {
   console.log("PARAMS", params)
   return async dispatch => {
@@ -10,7 +12,7 @@ export function getContacts(params) {
     try {
       const data = await api.getContactsService({
         headers: {
-          'Authorization': `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOjE3MSwiZXhwIjoxNjM5NDY2NjE1fQ.9vE-glLQtV2NT3gNMkqeRkrWWZAhYCqX-_ibs7lC8GY`
+          'Authorization': `Bearer ${token}`
         },
         params
       },)
