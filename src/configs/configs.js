@@ -1,0 +1,1 @@
+export const BASE_URL = 'https://api.dev.pastorsline.com/api/contacts.json';
