@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const createAxiosInstance = isAuth => {
   const instance = axios.create({
-    baseURL: process.env.REACT_APP_BACKEND_URL,
+    baseURL: 'https://api.dev.pastorsline.com/api',
     timeout: 12000,
   });
   instance.interceptors.request.use(
