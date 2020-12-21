@@ -1,23 +1,27 @@
-import React from 'react';
-import { BrowserRouter, Route } from 'react-router-dom';
-import './assets/sass/app.scss';
-import USModal from './components/USModal';
-import AllContactsModal from './components/AllContacts';
-import Switch from 'react-bootstrap/esm/Switch';
-import Home from './components/Home';
+import React, { useEffect } from 'react';
+import { Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import * as dotenv from 'dotenv';
+import storeConfig from './store/configureStore';
+import { history } from './routing/history';
+import Routes from './routing/Routing';
+import 'bootstrap/dist/css/bootstrap.min.css';
+
+dotenv.config();
 
 function App() {
-	return (
-		<div className='App'>
-			<BrowserRouter>
-				<Switch>
-					<Route component={Home} exact path='/' />
-					<Route component={AllContactsModal} exact path='/all' />
-					<Route component={USModal} exact path='/us' />
-				</Switch>
-			</BrowserRouter>
-		</div>
-	);
+  useEffect(() => {
+    dotenv.config();
+  }, []);
+
+  const store = storeConfig();
+  return (
+    <Provider store={store}>
+      <Router history={history}>
+        <Routes />
+      </Router>
+    </Provider>
+  );
 }
 
 export default App;
