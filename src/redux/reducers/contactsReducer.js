@@ -5,6 +5,7 @@ const initialState = {
   contacts_ids: [],
   loading: true,
   page: 1,
+  onlyEven:false,
 };
 
 function getContacts(state = initialState, action) {

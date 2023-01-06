@@ -20,6 +20,7 @@ function CustomModal({
   const scroll = useRef();
 
   const [searchTerm, setSearchTerm] = useState("");
+  const [evenOnly, setEvenOnly] = useState(false);
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter" && !contacts.loading) {
@@ -62,6 +63,10 @@ function CustomModal({
     }
   };
 
+  const handleCheckBox = useCallback(() => {
+    setEvenOnly(!evenOnly);
+  }, [evenOnly]);
+
   return (
     <Modal size="lg" show={show} onHide={handleClose}>
       <Modal.Header>
@@ -78,21 +83,41 @@ function CustomModal({
           />
         </InputGroup>
         <Scrollbars autoHeight autoHeightMax={700} onUpdate={handleScroll}>
-          {contacts?.contacts?.map((contact, index) => (
-            <ListGroup key={index} onClick={handleClick(contact)}>
-              <ListGroup.Item className="m-1">
-                <div>Email: {contact.email}</div>
-                <div>Phone: {contact.phone_number}</div>
-              </ListGroup.Item>
-            </ListGroup>
-          ))}
+          {!evenOnly
+            ? contacts?.contacts?.map((contact, index) => (
+                <ListGroup key={index} onClick={handleClick(contact)}>
+                  <ListGroup.Item className="m-1">
+                    <div>Email: {contact.email}</div>
+                    <div>Phone: {contact.phone_number}</div>
+                  </ListGroup.Item>
+                </ListGroup>
+              ))
+            : contacts?.contacts
+                ?.filter((contact) => contact.id % 2 === 0)
+                .map((contact, index) => (
+                  <ListGroup key={index} onClick={handleClick(contact)}>
+                    <ListGroup.Item className="m-1">
+                      <div>Email: {contact.email}</div>
+                      <div>Phone: {contact.phone_number}</div>
+                    </ListGroup.Item>
+                  </ListGroup>
+                ))}
         </Scrollbars>
         <Button type="btn-a" text="All Contacts" onClick={handleShowA} />
 
         <Button type="btn-b" text="US Contacts" onClick={handleShowB} />
         <Button type="btn-c" text="Close" onClick={handleClose} />
       </Modal.Body>
-      <Modal.Footer></Modal.Footer>
+      <Modal.Footer>
+        <InputGroup className="mb-3 ml-4" aria-label="Only Even">
+          <Form.Check
+            checked={!!evenOnly}
+            type="checkbox"
+            label="Only Even"
+            onChange={handleCheckBox}
+          />
+        </InputGroup>
+      </Modal.Footer>
     </Modal>
   );
 }
